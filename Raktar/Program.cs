@@ -28,6 +28,23 @@ namespace Raktar
             raktar.Close();
         }
 
+        static List<Megrendeles> megrendelesek = new List<Megrendeles>();
+
+        static void BeolvasMegreneles()
+        {
+            StreamReader rendeles = new StreamReader("rendeles.csv");
+
+            while (!rendeles.EndOfStream)
+            {
+                string[] sor = rendeles.ReadLine().Split(';');
+                if (sor[0] == "M")
+                {
+                    megrendelesek.Add(new Megrendeles(sor[1], sor[2], sor[3]));
+                }
+            }
+            rendeles.Close();
+        }
+
         static void Main(string[] args)
         {
             //Termek t = new Termek("P01", "Póló XXL", 1500, 10);
@@ -41,6 +58,13 @@ namespace Raktar
             }
 
             Console.WriteLine();
+
+            BeolvasMegreneles();
+            foreach (var m in megrendelesek)
+            {
+                Console.WriteLine($"{m.Datum} {m.Rendelesszam} {m.Email}");
+            }
+
             Console.ReadKey();
         }
     }
